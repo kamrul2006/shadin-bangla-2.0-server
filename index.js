@@ -52,6 +52,7 @@ async function run() {
         //------all news ---------
         // ----------------------------------------------------------------------------------------
 
+
         // ---------------get all Blogs----------------
         app.get("/Blogs", async (req, res) => {
             const result = await BlogCollection.find().toArray();
