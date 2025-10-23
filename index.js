@@ -51,7 +51,7 @@ async function run() {
 
 
         // ----------------------------------------------------------------------------------------
-        //------all news ---------
+        //------all Blogs ---------
         // ----------------------------------------------------------------------------------------
 
 
@@ -61,7 +61,7 @@ async function run() {
             res.send(result)
         })
 
-        // ----------------------get news by id -----------------------------
+        // ----------------------get blog by id -----------------------------
         app.get("/Blogs/:id", async (req, res) => {
             const id = req.params.id
             const query = { _id: new ObjectId(id) }
@@ -86,14 +86,14 @@ async function run() {
             }
         });
 
-        //----------add article--------
+        //----------add Blog--------
         app.post('/Blogs', async (req, res) => {
             const review = req.body
             const result = await BlogCollection.insertOne(review)
             res.send(result)
         })
 
-        //---------- DELETE Articles by id----------------
+        //---------- DELETE Blog by id----------------
         app.delete("/Blogs/:id", async (req, res) => {
             const { id } = req.params;
             try {
@@ -123,40 +123,40 @@ async function run() {
             }
         });
 
-        // -------------- make article premium--------------
-        app.patch('/Blogs/premium/:id', async (req, res) => {
-            const id = req.params.id;
-            try {
-                const result = await BlogCollection.updateOne(
-                    { _id: new ObjectId(id) },
-                    { $set: { type: 'premium', isPremium: true } }
-                );
-                res.send(result);
-            } catch (error) {
-                res.status(500).send({ message: 'Failed to make premium' });
-            }
-        });
+        // -------------- make blog premium--------------
+        // app.patch('/Blogs/premium/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     try {
+        //         const result = await BlogCollection.updateOne(
+        //             { _id: new ObjectId(id) },
+        //             { $set: { type: 'premium', isPremium: true } }
+        //         );
+        //         res.send(result);
+        //     } catch (error) {
+        //         res.status(500).send({ message: 'Failed to make premium' });
+        //     }
+        // });
 
-        // ----------------- make article general-------------
-        app.patch('/Blogs/general/:id', async (req, res) => {
-            const id = req.params.id;
-            try {
-                const result = await BlogCollection.updateOne(
-                    { _id: new ObjectId(id) },
-                    { $set: { type: 'general', isPremium: false } }
-                );
-                res.send(result);
-            } catch (error) {
-                res.status(500).send({ message: 'Failed to make general' });
-            }
-        });
+        // ----------------- make blog general-------------
+        // app.patch('/Blogs/general/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     try {
+        //         const result = await BlogCollection.updateOne(
+        //             { _id: new ObjectId(id) },
+        //             { $set: { type: 'general', isPremium: false } }
+        //         );
+        //         res.send(result);
+        //     } catch (error) {
+        //         res.status(500).send({ message: 'Failed to make general' });
+        //     }
+        // });
 
 
         //--------------------------------------------------------------------
-        //-------------publisher----------------
+        //-------------Shohid list----------------
         //---------------------------------------------------------------------
 
-        // ---------------get all publishers----------------
+        // ---------------get all Shohid----------------
         app.get("/Shohid", async (req, res) => {
             const result = await ShohidCollection.find().toArray();
             res.send(result)
@@ -188,32 +188,9 @@ async function run() {
             res.send(result)
         })
 
-        // --------------------- update isSubscribed------------
-        app.patch("/Users/:id", async (req, res) => {
-            const userId = req.params.id;
-            const { isSubscribed } = req.body;
-
-            try {
-                const result = await UserCollection.updateOne(
-                    { _id: new ObjectId(userId) },
-                    { $set: { isSubscribed: isSubscribed } }
-                );
-
-                if (result.modifiedCount > 0) {
-                    res.send({ success: true, message: "Subscription updated." });
-                } else {
-                    res.status(404).send({ success: false, message: "User not found or already updated." });
-                }
-            } catch (error) {
-                res.status(500).send({ success: false, message: "Update failed.", error });
-            }
-        });
-
         // ---------------------- remove admin ---------------------
         app.patch("/Users/remove-admin/:id", async (req, res) => {
             const userId = req.params.id;
-
-            // console.log('xxgjh')
 
             try {
                 const result = await UserCollection.updateOne(
@@ -231,8 +208,6 @@ async function run() {
         app.patch("/Users/admin/:id", async (req, res) => {
             const userId = req.params.id;
 
-            // console.log('xxgjh')
-
             try {
                 const result = await UserCollection.updateOne(
                     { _id: new ObjectId(userId) },
@@ -245,7 +220,8 @@ async function run() {
             }
         });
 
-        // //----------------- DELETE a user---------------
+
+        //----------------- DELETE a user---------------
         app.delete("/Users/:id", async (req, res) => {
             const userId = req.params.id;
 
