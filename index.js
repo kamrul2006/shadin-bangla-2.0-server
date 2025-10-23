@@ -174,6 +174,21 @@ async function run() {
             res.send(result)
         })
 
+        // ------------get user by id------------------------
+        app.get("/users/:email", async (req, res) => {
+            const email = req.params.email;
+            try {
+                const user = await UserCollection.findOne({ email: email });
+                if (!user) {
+                    return res.status(404).send({ message: "User not found" });
+                }
+                res.send(user);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+                res.status(500).send({ message: "Server error" });
+            }
+        });
+
         //---------------------------------add users-------------------
         app.post('/Users', async (req, res) => {
             const user = req.body
