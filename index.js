@@ -13,10 +13,12 @@ const app = express();
 // -----------middleware-----
 app.use(cors(
     {
-        origin: ['http://localhost:5173',
+        origin: [
             'http://localhost:5173',
-            // 'https://S-Bangla2.0.web.app',
-            // 'https://S-Bangla2.0.firebaseapp.com'
+            'http://localhost:5173',
+            'https://shadin-bangla-2-0.web.app',
+            'https://shadin-bangla-2-0.vercel.app',
+            'https://shadin-bangla-2-0.firebaseapp.com'
         ],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
