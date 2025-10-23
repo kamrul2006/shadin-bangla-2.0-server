@@ -71,20 +71,20 @@ async function run() {
         })
 
         //-----------------update view count of article------------
-        app.put("/Blogs/views/:id", async (req, res) => {
-            const id = req.params.id;
-            const { viewCount } = req.body;
+        // app.put("/Blogs/views/:id", async (req, res) => {
+        //     const id = req.params.id;
+        //     const { viewCount } = req.body;
 
-            try {
-                const result = await BlogCollection.updateOne(
-                    { _id: new ObjectId(id) },
-                    { $set: { viewCount } }
-                );
-                res.send(result);
-            } catch (err) {
-                res.status(500).send({ message: "Error updating views", error: err });
-            }
-        });
+        //     try {
+        //         const result = await BlogCollection.updateOne(
+        //             { _id: new ObjectId(id) },
+        //             { $set: { viewCount } }
+        //         );
+        //         res.send(result);
+        //     } catch (err) {
+        //         res.status(500).send({ message: "Error updating views", error: err });
+        //     }
+        // });
 
         //----------add Blog--------
         app.post('/Blogs', async (req, res) => {
@@ -109,7 +109,7 @@ async function run() {
             }
         });
 
-        // ------------- approve article---------------
+        // ------------- approve blog---------------
         app.patch('/Blogs/approve/:id', async (req, res) => {
             const id = req.params.id;
             try {
@@ -162,6 +162,28 @@ async function run() {
             res.send(result)
         })
 
+        //----------add shohid--------
+        app.post('/Shohid', async (req, res) => {
+            const review = req.body
+            const result = await ShohidCollection.insertOne(review)
+            res.send(result)
+        })
+
+        //---------- DELETE shohid by id----------------
+        app.delete("/Shohid/:id", async (req, res) => {
+            const { id } = req.params;
+            try {
+                const result = await ShohidCollection.deleteOne({ _id: new ObjectId(id) });
+                if (result.deletedCount === 1) {
+                    res.status(200).json({ message: "Article deleted successfully." });
+                } else {
+                    res.status(404).json({ message: "Article not found." });
+                }
+            } catch (err) {
+                console.error("Delete Error:", err);
+                res.status(500).json({ message: "Server error." });
+            }
+        });
 
 
         // ----------------------------------------------------------------------------------------
@@ -237,16 +259,16 @@ async function run() {
 
 
         //----------------- DELETE a user---------------
-        app.delete("/Users/:id", async (req, res) => {
-            const userId = req.params.id;
+        // app.delete("/Users/:id", async (req, res) => {
+        //     const userId = req.params.id;
 
-            try {
-                const result = await UserCollection.deleteOne({ _id: new ObjectId(userId) });
-                res.json(result);
-            } catch (err) {
-                res.status(500).json({ message: "Failed to delete user", error: err.message });
-            }
-        });
+        //     try {
+        //         const result = await UserCollection.deleteOne({ _id: new ObjectId(userId) });
+        //         res.json(result);
+        //     } catch (err) {
+        //         res.status(500).json({ message: "Failed to delete user", error: err.message });
+        //     }
+        // });
 
 
         //--------------------------------------------------------------------
