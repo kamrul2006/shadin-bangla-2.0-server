@@ -289,6 +289,21 @@ async function run() {
             res.send(result)
         })
 
+
+        // ------------- approve review---------------
+        app.patch('/reviews/approve/:id', async (req, res) => {
+            const id = req.params.id;
+            try {
+                const result = await ReviewsCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: { status: 'approved' } }
+                );
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: 'Failed to approve article' });
+            }
+        });
+
         //---------- DELETE review by id----------------
         app.delete("/Reviews/:id", async (req, res) => {
             const { id } = req.params;
